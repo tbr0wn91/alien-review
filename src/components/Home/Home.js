@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
+import axios from 'axios';
+import './Home.css'
 
 class Home extends Component {
     constructor(){
@@ -11,16 +12,26 @@ class Home extends Component {
 
 
     componentDidMount(){
-        Axios.get('/api/aliens').then(res => {
-            console.log('alieeens', res.data)
+        axios.get('/api/aliens').then(res => {
+            this.setState({
+                aliens: res.data
+            })
         })
     }
 
 
     render(){
+        const mappedAliens = this.state.aliens.map(alien => {
+            return <div className="aliens">
+                <h1>{alien.name}</h1>
+                <img src={alien.photo}></img>
+                <p>Race: {alien.race}</p>
+            </div>
+        })
         return (
-            <div>
-                Home Component
+            <div className="alien_container">
+                ALIENS!
+                {mappedAliens}
             </div>
         )
     }
