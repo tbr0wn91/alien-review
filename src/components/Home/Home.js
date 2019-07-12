@@ -6,13 +6,24 @@ class Home extends Component {
     constructor(){
         super();
         this.state = {
-            aliens: []
+            aliens: [],
+            newName: ""
         }
     }
 
 
     componentDidMount(){
         axios.get('/api/aliens').then(res => {
+            this.setState({
+                aliens: res.data
+            })
+        })
+    }
+
+    updateAliens = (id) => {
+        const { newName } = this.state
+        axios.put(`/api/aliens/${id}`, {name: newName}).then(res => {
+            console.log('data after update', res.data)
             this.setState({
                 aliens: res.data
             })
@@ -26,6 +37,8 @@ class Home extends Component {
                 <h1>{alien.name}</h1>
                 <img src={alien.photo}></img>
                 <p>Race: {alien.race}</p>
+                <input onChange={(e) => this.setState({newName: e.target.value})} />
+                <button onClick={() => this.updateAliens(alien.id)}>Submit</button>
             </div>
         })
         return (
