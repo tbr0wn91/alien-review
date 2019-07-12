@@ -1,7 +1,7 @@
 const express = require('express');
 const massive = require('massive');
 require('dotenv').config();
-const { getAllAliens } = require('./controller/alienController');
+const { getAllAliens, updateAlien } = require('./controller/alienController');
 
 const app = express();
 
@@ -15,5 +15,7 @@ massive(CONNECTION_STRING).then(database => {
 app.use(express.json());
 
 app.get('/api/aliens/', getAllAliens);
+
+app.put('/api/aliens/:id', updateAlien)
 
 app.listen(SERVER_PORT, () => console.log(`Chillin on port ${SERVER_PORT}`))
